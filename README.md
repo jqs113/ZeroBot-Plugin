@@ -68,7 +68,7 @@ zerobot [-h] [-n nickname] [-t token] [-u url] [-p prefix] [-d|w] [-c|s config.j
         "command_prefix": "/",
         "super_users": [],
         "ring_len": 4096,
-        "latency": 1000000000,
+        "latency": 233000000,
         "max_process_time": 240000000000
     },
     "ws": [
@@ -122,8 +122,9 @@ zerobot [-h] [-n nickname] [-t token] [-u url] [-p prefix] [-d|w] [-c|s config.j
 
   - [x] /服务列表
 
-  - [x] /服务详情
+  - [x] /设置服务列表显示行数 xx
 
+	默认值为9,该设置仅运行时有效,zbp重启后重置
   - [x] @Bot 插件冲突检测 (会在本群发送一条消息并在约 1s 后撤回以检测其它同类 bot 中已启用的插件并禁用)
 
 </details>
@@ -227,6 +228,12 @@ zerobot [-h] [-n nickname] [-t token] [-u url] [-p prefix] [-d|w] [-c|s config.j
   - [x] [开启 | 关闭]入群验证
 
   - [x] [开启 | 关闭]gist加群自动审批
+
+  - [x] 对信息回复:[设置 | 取消]精华
+
+  - [x] 取消精华 [信息ID]
+
+  - [x] /精华列表
 
   - [ ] 同意好友请求
 
@@ -367,6 +374,10 @@ print("run[CQ:image,file="+j["img"]+"]")
   - [x] [ 以图绘图 | 以图生图 | 以图画图 ] xxx [图片]|@xxx|[qq号]
   
   - [x] 设置ai绘图配置 [server] [token]
+  
+  - [x] 设置ai绘图撤回时间90s
+  
+  - [x] 查看ai绘图配置
   
   例: 设置ai绘图配置 http://91.216.169.75:5010 abc
 
@@ -724,37 +735,32 @@ print("run[CQ:image,file="+j["img"]+"]")
 
   `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/guessmusic"`
 
-  - 猜歌插件（该插件依赖ffmpeg）
-  
-  - 因为API不可抗因素，更改为了本地猜歌，但仍支持歌曲下载（VIP歌曲无法下载，黑胶可以）
-  
+  猜歌插件（该插件依赖ffmpeg）
+	
+  ---------主 人 指 令---------
   - [x] 设置猜歌歌库路径 [绝对路径]
-  
-  - [x] 猜歌[开启/关闭][歌单/歌词]自动下载
-  
-  - 现只有歌词指令有效
-  
-  - [ ] 添加歌单 [网易云歌单链接/ID] [歌单名称]
-  
-  - [x] 下载歌曲 [歌曲名称/网易云歌曲ID] [歌单名称]
-  
-  - [x] 删除歌单 [网易云歌单ID/歌单名称]
-  
-  - 注：删除网易云歌单ID仅只是解除绑定，删除歌单名称是将本地数据全部删除！
-  
+  - [x] [创建/删除]歌单 [歌单名称]
+  - [x] 下载歌曲[歌曲名称/网易云歌曲ID]到[歌单名称]
+	
+  -------管 理 员 指 令--------
   - [x] 设置猜歌默认歌单 [歌单名称]
-  
+  - [x] 上传歌曲[群文件的音乐名]到[歌单名称]
+	
+  ------公 用 指 令------
   - [x] 歌单列表
-  
   - [x] [个人/团队]猜歌
-  
-  - 注：默认歌库为歌单列表第一个，如果设置了默认歌单变为指定的歌单
-  
-  - 可在“[个人/团队]猜歌指令”后面添加[-歌单名称]进行指定歌单猜歌
-  
-  - 猜歌内容必须以[-]开头才会识别
-  
-  - 本地歌曲命名规则为:\n歌名 - 歌手 - 其他(歌曲出处之类)
+	
+  ------插 件 扩 展------
+	
+NeteaseCloudMusicApi项目地址:https://binaryify.github.io/NeteaseCloudMusicApi/#/
+  - [x] 设置猜歌API帮助
+  - [x] 设置猜歌API [API首页网址]
+  - [x] 猜歌[开启/关闭][歌单/歌词]自动下载
+  - [ ] 登录网易云
+  - [x] 歌单信息 [网易云歌单链接/ID]
+  - [x] [歌单名称]绑定网易云[网易云歌单链接/ID]
+  - [x] 下载歌单[网易云歌单链接/ID]到[歌单名称]
+  - [x] 解除绑定 [歌单名称]
 
 </details>
 <details>
@@ -812,6 +818,16 @@ print("run[CQ:image,file="+j["img"]+"]")
 
   - [x] 更新[屌|弔|吊]图
 
+  </details>
+<details>
+  <summary>兽语加密(嗷呜~)</summary>
+
+  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/jiami"`
+
+  - [x] 兽语加密xxx
+
+  - [x] 兽语解密xxx
+
 </details>
 <details>
   <summary>小鸡词典</summary>
@@ -859,6 +875,14 @@ print("run[CQ:image,file="+j["img"]+"]")
 记录在"@every 1h"触发的指令
 来份萝莉
 ```
+
+</details>
+<details>
+  <summary>MagicPrompt-Stable-Diffusion吟唱提示</summary>
+
+  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/magicprompt"`
+
+  - [x] 吟唱提示[xxxx]
 
 </details>
 <details>
@@ -1042,8 +1066,45 @@ print("run[CQ:image,file="+j["img"]+"]")
 
   - [x] 群老婆列表
 
+  - [x] 好感度列表
+
   - [x] 重置花名册
 
+</details>
+<details>
+  <summary>权重查询</summary>
+
+  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/quan"`
+
+  - 来看看大家的账号分吧~据说越高越不容易封号哦
+
+  - [x] 权重查询+@xxx
+
+  - [x] 权重查询+QQ号(为空时匹配触发者QQ)
+
+</details>
+<details>
+  <summary>qq空间表白墙</summary>
+
+  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/qzone"`
+
+  - [x] 登录QQ空间 (Cookie过期很快, 要经常登录)
+  
+  - [x] 发说说[xxx]
+  
+  - [x] (匿名)发表白墙[xxx]
+  
+  - [x] [ 同意 | 拒绝 ]表白墙 1,2,3 (最后一个参数是表白墙的序号数组, 用英文逗号连接)
+  
+  - [x] 查看[ 等待 | 同意 | 拒绝 | 所有 ]表白墙 0 (最后一个参数是页码, 建议私聊审稿)
+
+</details>
+<details>
+  <summary>Real-CUGAN清晰术</summary>
+
+  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/realcugan"`
+
+  - [x] 清晰术(双重吟唱|三重吟唱|四重吟唱)(强力术式|中等术式|弱术式|不变式|原式)[图片]
 
 </details>
 <details>
@@ -1144,6 +1205,14 @@ print("run[CQ:image,file="+j["img"]+"]")
 
 </details>
 <details>
+  <summary>舔狗日记</summary>
+
+  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/tiangou"`
+
+  - [x] 舔狗日记
+
+</details>
+<details>
   <summary>搜番</summary>
 
   `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/tracemoe"`
@@ -1152,25 +1221,19 @@ print("run[CQ:image,file="+j["img"]+"]")
 
 </details>
 <details>
-  <summary>猜单词</summary>
-
-  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/wordle"`
-
-  - [x] 个人猜单词
-
-  - [x] 团队猜单词
-
-  - [x] 团队六阶猜单词
-
-  - [x] 团队七阶猜单词
-
-</details>
-<details>
   <summary>翻译</summary>
 
   `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/translation"`
 
   - [x] >TL 你好
+
+</details>
+<details>
+  <summary>vits猫雷</summary>
+
+  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/vitsnyaru"`
+
+  - [x] 让猫雷说[xxxx]
 
 </details>
 <details>
@@ -1191,6 +1254,20 @@ print("run[CQ:image,file="+j["img"]+"]")
   `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/wangyiyun"`
 
   - [x] 来份网易云热评
+
+  </details>
+<details>
+  <summary>天气/拼音查询-名言</summary>
+
+  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/wenben"`
+
+  - [x] xx天气
+
+  - [x] xx拼音
+
+  - [x] 每日情话/一言/鸡汤
+
+  - [x] 绕口令
 
 </details>
 <details>
@@ -1254,19 +1331,25 @@ print("run[CQ:image,file="+j["img"]+"]")
 
 </details>
 <details>
-  <summary>舔狗日记</summary>
-
-  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/tiangou"`
-
-  - [x] 舔狗日记
-
-</details>
-<details>
   <summary>聊天热词</summary>
 
   `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/word_count"`
 
   - [x] 热词 [群号] [消息数目]|热词 123456 1000
+
+</details>
+<details>
+  <summary>猜单词</summary>
+
+  `import _ "github.com/FloatTech/ZeroBot-Plugin/plugin/wordle"`
+
+  - [x] 个人猜单词
+
+  - [x] 团队猜单词
+
+  - [x] 团队六阶猜单词
+
+  - [x] 团队七阶猜单词
 
 </details>
 <details>

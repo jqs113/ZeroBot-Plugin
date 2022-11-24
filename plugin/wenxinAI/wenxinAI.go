@@ -26,10 +26,8 @@ import (
 )
 
 const (
-	serviceName = "wenxinvilg"
-	serviceErr  = "[" + serviceName + "]ERROR:\n"
-	modelName   = "wenxinmodel"
-	modelErr    = "[" + modelName + "]ERROR:\n"
+	serviceErr = "[wenxinvilg]ERROR:\n"
+	modelErr   = "[wenxinmodel]ERROR:\n"
 )
 
 type keydb struct {
@@ -69,7 +67,7 @@ func init() { // 插件主体
 		defer process.GlobalInitMutex.Unlock()
 		name = zero.BotConfig.NickName[0]
 	}()
-	engine := control.Register(serviceName, &ctrl.Options[*zero.Ctx]{
+	engine := control.Register("wenxinvilg", &ctrl.Options[*zero.Ctx]{
 		DisableOnDefault: false,
 		Brief:            "文心AI画图",
 		Help: "基于百度文心的免费AI画图插件,\n因为是免费的,图片质量你懂的。\n" +
@@ -261,7 +259,7 @@ func init() { // 插件主体
 			ctx.SendChain(message.Text("成功!"))
 		})
 	/*********************************************************/
-	en := control.Register(modelName, &ctrl.Options[*zero.Ctx]{
+	en := control.Register("wenxinmodel", &ctrl.Options[*zero.Ctx]{
 		DisableOnDefault: false,
 		Brief:            "文心AI文本处理",
 		Help: "基于百度文心AI的API文本处理\n" +
@@ -281,14 +279,14 @@ func init() { // 插件主体
 			"————————————————————\n" +
 			"- 文心对联 [上联]\n" +
 			"————————————————————\n" +
-			"- 文心问答 [问题]" +
+			"- 文心问答 [问题]\n" +
 			"————————————————————\n" +
 			"- 文心补全 [带“_”的填空题]\n" +
 			"————————————————————\n" +
-			"- 文心自定义 [prompt]\n" +
+			"- 文心自定义 [prompt]\n\n" +
 			"prompt: [问题描述] [问题类型]:[题目] [解答类型]:[解题必带内容]\n" +
 			"指令示例:\n" +
-			"文心自定义 请写出下面这道题的解题过程。\\n题目:养殖场养鸭376只,养鸡的只数比鸭多258只,这个养殖场一共养鸭和鸡多少只?\\n解：\n" +
+			"文心自定义 请写出下面这道题的解题过程。\\n题目:养殖场养鸭376只,养鸡的只数比鸭多258只,这个养殖场一共养鸭和鸡多少只?\\n解：\n\n" +
 			"文心自定义 1+1=?\n" +
 			"文心自定义 歌曲名：大风车转啊转\\n歌词：",
 	}).ApplySingle(single.New(
