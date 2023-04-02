@@ -2,6 +2,7 @@
 package setutime
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -154,6 +155,9 @@ func (p *imgpool) size(imgtype string) int {
 }
 
 func (p *imgpool) push(ctx *zero.Ctx, imgtype string, illust *pixiv.Illust) {
+	if len(illust.ImageUrls) == 0 {
+		return
+	}
 	u := illust.ImageUrls[0]
 	n := u[strings.LastIndex(u, "/")+1 : len(u)-4]
 	m, err := imagepool.GetImage(n)
@@ -222,6 +226,9 @@ func (p *imgpool) add(ctx *zero.Ctx, imgtype string, id int64) error {
 	if err != nil {
 		return err
 	}
+	if len(illust.ImageUrls) == 0 {
+		return errors.New("nil image url")
+	}
 	err = imagepool.SendImageFromPool(strconv.FormatInt(illust.Pid, 10)+"_p0", illust.Path(0), func() error {
 		return illust.DownloadToCache(0)
 	}, ctxext.Send(ctx), ctxext.GetMessage(ctx))
@@ -229,10 +236,7 @@ func (p *imgpool) add(ctx *zero.Ctx, imgtype string, id int64) error {
 		return err
 	}
 	// 添加插画到对应的数据库table
-	if err := p.db.Insert(imgtype, illust); err != nil {
-		return err
-	}
-	return nil
+	return p.db.Insert(imgtype, illust)
 }
 
 func (p *imgpool) remove(imgtype string, id int64) error {
